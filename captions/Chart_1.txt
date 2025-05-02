@@ -1,0 +1,4 @@
+Nhận xét biểu đồ: Phân bố bệnh tim theo nhóm tuổi
+- Xu hướng chung: Nhóm tuổi 60+ có số ca mắc bệnh tim cao nhất (677), đồng thời cũng có số người không mắc cao nhất (2717), cho thấy đây là nhóm có nguy cơ cao nhất.
+- Trong các nhóm <60 tuổi, số người không có bệnh tim luôn vượt trội, nhưng số người có bệnh tim vẫn dao động tương đối đều (khoảng 290–360).
+- Biểu đồ phản ánh rõ xu hướng: tuổi càng cao thì tỷ lệ mắc bệnh tim càng tăng.

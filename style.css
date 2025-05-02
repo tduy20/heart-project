@@ -1,0 +1,355 @@
+:root {
+    --primary-color: #1a73e8;
+    --accent-color: #ff5252;
+    --bg-color: #f0f9ff;
+    --sidebar-bg: #ffffff;
+    --card-bg: #ffffff;
+    --text-dark: #333333;
+    --text-medium: #555555;
+    --text-light: #757575;
+    --border-color: #e0e0e0;
+    --shadow-color: rgba(0, 0, 0, 0.08);
+    --hover-bg: #e8f3ff;
+    --active-bg: #ddecff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Roboto', 'Segoe UI', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+/* Dashboard Layout */
+.dashboard {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 320px;
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    box-shadow: 2px 0 5px var(--shadow-color);
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.sidebar-header h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.logo svg {
+    width: 32px;
+    height: 32px;
+}
+
+.task-menu {
+    flex-grow: 1;
+}
+
+.task-menu ul {
+    list-style: none;
+    margin-bottom: 1.5rem;
+}
+
+.task-menu li {
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.task-menu li:hover {
+    background-color: var(--hover-bg);
+}
+
+.task-menu li.active {
+    background-color: var(--active-bg);
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.view-all-btn {
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.view-all-btn:hover {
+    background-color: #1565c0;
+}
+
+.sidebar-footer {
+    margin-top: 2rem;
+    text-align: center;
+    color: var(--text-light);
+    font-size: 0.8rem;
+}
+
+/* Main Content Styles */
+.content {
+    flex-grow: 1;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+.content-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.content-header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+/* Chart Card Styles */
+.charts-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+.charts-container.grid-view {
+    grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+}
+
+.chart-card {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px var(--shadow-color);
+    overflow: hidden;
+    display: none;
+}
+
+.chart-card.active {
+    display: block;
+}
+
+.card-header {
+    background-color: #f8f8f8;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.card-header h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.card-body {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+}
+
+/* SVG Chart Styles */
+svg {
+    background-color: #ffffff;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Tooltip Styles */
+.tooltip {
+    position: absolute;
+    text-align: left;
+    padding: 10px 12px;
+    font-size: 13px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 4px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .dashboard {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .content {
+        padding: 1.5rem;
+    }
+    
+    .charts-container.grid-view {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        padding: 1rem;
+    }
+    
+    .content {
+        padding: 1rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+}
+
+/* Thêm vào cuối file style.css */
+
+.chart-with-controls {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.chart-controls {
+    min-width: 250px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+}
+
+.filter-panel, .sort-panel {
+    margin-bottom: 20px;
+}
+
+.filter-panel h4, .sort-panel h4 {
+    margin: 0 0 10px;
+    font-size: 16px;
+    color: var(--primary-color);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 5px;
+}
+
+.filter-options, .sort-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filter-options label, .sort-options label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.filter-options input, .sort-options input {
+    margin-right: 8px;
+}
+
+.sort-by {
+    margin-top: 15px;
+}
+
+.sort-by h5 {
+    font-size: 14px;
+    margin: 0 0 8px;
+}
+
+#sort-by-select {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: white;
+    font-size: 14px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .chart-with-controls {
+        flex-direction: column;
+    }
+    
+    .chart-controls {
+        width: 100%;
+        max-width: none;
+    }
+}
+
+/* Thêm vào file style.css */
+.chart-caption {
+    margin-top: 15px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-left: 4px solid #4dabf7;
+    border-radius: 0 4px 4px 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #495057;
+    max-width: 100%;
+    box-sizing: border-box;
+    white-space: pre-line; /* Giữ nguyên khoảng cách và xuống dòng */
+    width: calc(100% - 20px); /* Đảm bảo phù hợp với container, trừ đi padding */
+    margin-left: 10px;
+    margin-right: 10px;
+    text-align: justify;
+    overflow-wrap: break-word; /* Đảm bảo văn bản dài sẽ ngắt xuống dòng */
+}
+
+/* Điều chỉnh trong grid view (xem tất cả) */
+.grid-view .chart-caption {
+    max-height: 200px;
+    overflow-y: auto; /* Cho phép cuộn nếu nội dung quá dài */
+}
+
+/* Đảm bảo caption phù hợp với kích thước sidebar */
+@media (min-width: 992px) {
+    .chart-caption {
+        width: calc(100% - 20px);
+        margin-left: 10px;
+    }
+}
+
+/* Đảm bảo caption có kích thước tương tự với sidebar trên màn hình nhỏ */
+@media (max-width: 991px) {
+    .chart-caption {
+        width: calc(100% - 20px);
+    }
+}
+
+/* Thêm icon để nhận diện đây là phần chú thích */
+.chart-caption::before {
+    content: "📊";
+    margin-right: 8px;
+    font-size: 16px;
+}

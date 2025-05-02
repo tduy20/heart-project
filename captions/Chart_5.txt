@@ -1,0 +1,8 @@
+1. Những gì biểu đồ thể hiện:
+- Cả hai nhóm "Có bệnh tim" và "Không có bệnh tim" đều có median cholesterol giống nhau: 226 mg/dL
+- Khoảng giá trị từ min (150 mg/dL) đến max (300 mg/dL) là giống nhau ở cả hai nhóm
+- Hình dạng của 2 box gần như đối xứng và tương tự nhau → phân bố cholesterol giữa 2 nhóm không có sự khác biệt rõ ràng
+2. Kết luận:
+- Dữ liệu không cho thấy sự khác biệt đáng kể về mức độ cholesterol giữa người có bệnh tim và không có bệnh tim
+- Median trùng nhau (226 mg/dL), và cả phạm vi (150 – 300 mg/dL) cũng giống nhau
+- Mức độ cholesterol không phải là yếu tố phân biệt rõ ràng nguy cơ mắc bệnh tim trong tập dữ liệu này
