@@ -79,7 +79,7 @@
                                             <input type="radio" name="sort-order" value="ascending"> Tăng dần
                                         </label>
                                         <label>
-                                            <input type="radio" name="sort-order" value="descending"> Giảm dần
+                                            <input type="radio" name="sort-order" value="descending"> Giảm dầ
                                         </label>
                                     </div>
                                 </div>
@@ -95,6 +95,16 @@
                     </div>
                     <div class="card-body">
                         <svg id="chart-task2" width="700" height="450"></svg>
+                        <div class="chart-controls">
+                            <div class="filter-panel">
+                                <h4>Bộ lọc dữ liệu</h4>
+                                <div class="filter-options">
+                                    <label><input type="checkbox" name="filter-heart" value="all" checked> Tất cả</label>
+                                    <label><input type="checkbox" name="filter-heart" value="Yes"> Có bệnh tim</label>
+                                    <label><input type="checkbox" name="filter-heart" value="No"> Không có bệnh tim</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
