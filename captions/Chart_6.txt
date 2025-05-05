@@ -1,0 +1,4 @@
+Nhận xét biểu đồ: Tương quan giữa BMI và bệnh tim
+- Trung vị (median) chỉ số BMI của hai nhóm có bệnh tim và không có bệnh tim đều xấp xỉ 29, cho thấy trung bình chỉ số BMI là tương đương giữa hai nhóm.
+- Phân bố dữ liệu trong hai nhóm là gần giống nhau về khoảng tứ phân vị (Q1–Q3), với mức độ phân tán rộng nhưng tương đương.
+- Giá trị thấp nhất và cao nhất (min/max) cũng rất gần nhau giữa hai nhóm, điều này gợi ý rằng BMI không phải là yếu tố phân biệt rõ rệt giữa người có và không có bệnh tim trong tập dữ liệu này.

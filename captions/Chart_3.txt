@@ -1,0 +1,12 @@
+1. Tổng thể: Cả hai nhóm (có hút thuốc và không hút thuốc) đều có số lượng người không mắc bệnh tim cao hơn rất nhiều so với số người có bệnh tim.
+2. So sánh nhóm hút thuốc (Yes):
+- Có bệnh tim: 1,029 người.
+- Không có bệnh tim: 4,094 người.
+- Mặc dù người hút thuốc có số mắc bệnh cao hơn nhóm không hút, nhưng tỷ lệ có bệnh tim so với tổng số người hút vẫn còn thấp hơn số không bệnh.
+3. So sánh nhóm không hút thuốc (No):
+- Có bệnh tim: 965 người.
+- Không có bệnh tim: 3,887 người.
+- Số người không hút thuốc nhưng vẫn mắc bệnh tim cũng khá cao, cho thấy hút thuốc không phải là yếu tố duy nhất gây bệnh tim.
+4. Tổng kết:
+- Biểu đồ cho thấy hút thuốc có thể liên quan đến việc tăng nguy cơ mắc bệnh tim, vì nhóm hút có số ca bệnh cao hơn nhóm không hút.
+- Tuy nhiên, sự khác biệt không quá lớn → cần xem xét thêm các yếu tố khác như tuổi tác, BMI, vận động...

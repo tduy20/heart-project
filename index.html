@@ -79,7 +79,7 @@
                                             <input type="radio" name="sort-order" value="ascending"> Tăng dần
                                         </label>
                                         <label>
-                                            <input type="radio" name="sort-order" value="descending"> Giảm dầ
+                                            <input type="radio" name="sort-order" value="descending"> Giảm dần
                                         </label>
                                     </div>
                                 </div>
@@ -95,16 +95,6 @@
                     </div>
                     <div class="card-body">
                         <svg id="chart-task2" width="700" height="450"></svg>
-                        <div class="chart-controls">
-                            <div class="filter-panel">
-                                <h4>Bộ lọc dữ liệu</h4>
-                                <div class="filter-options">
-                                    <label><input type="checkbox" name="filter-heart" value="all" checked> Tất cả</label>
-                                    <label><input type="checkbox" name="filter-heart" value="Yes"> Có bệnh tim</label>
-                                    <label><input type="checkbox" name="filter-heart" value="No"> Không có bệnh tim</label>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -114,11 +104,14 @@
                         <h3>Mối liên hệ giữa hút thuốc và bệnh tim</h3>
                     </div>
                     <div class="card-body">
-                        <svg id="chart-task3" width="700" height="450"></svg>
+                        <div class="chart-with-controls">
+                            <svg id="chart-task3" width="600" height="400"></svg>
+
+                        </div>
                     </div>
                 </div>
-                <!-- Chèn code, function tương ứng cho Task 3 tại đây -->
 
+                
                 <!-- Task 4 Chart -->
                 <div id="chart-container-4" class="chart-card">
                     <div class="card-header">
@@ -147,7 +140,7 @@
                     </div>
                     <div class="card-body">
                         <svg id="chart-task6" width="700" height="450"></svg>
-                    </div>
+                    </div>      
                 </div>
                 <!-- Chèn code, function tương ứng cho Task 6 tại đây -->
             </div>
