@@ -108,40 +108,74 @@ document.addEventListener("DOMContentLoaded", function () {
         setupChartFilters("#chart-task1", task1Formatted);
         
         // === Chuẩn hóa dữ liệu cho Task 2: Mối liên hệ giữa giới tính và bệnh tim ===
+       
+        // Lọc dữ liệu chỉ lấy Male và Female
+        const genderFilteredData = data.filter(d => d.Gender === "Male" || d.Gender === "Female");
 
-
-
-        // === Chuẩn hóa dữ liệu cho Task 3: Mối liên hệ giữa hút thuốc và bệnh tim ===
-        const task3Data = d3.rollups(
-            data.filter(d => d.Smoking === "Yes" || d.Smoking === "No"), // lọc hợp lệ
+        const task2Data = d3.rollups(
+            genderFilteredData,
             v => ({
                 Yes: v.filter(d => d["Heart Disease Status"] === "Yes").length,
                 No: v.filter(d => d["Heart Disease Status"] === "No").length
             }),
-            d => d.Smoking
+            d => d.Gender
         ).map(([group, val]) => ({
             group,
             Yes: val.Yes,
             No: val.No
         }));
-        
-        drawGroupedBarChart("#chart-task3", task3Data, "Hút thuốc", "Số lượng", {
+
+        drawGroupedBarChart("#chart-task2", task2Data, "Giới tính", "Số lượng", {
             filterableGroups: ["Yes", "No"],
-            chartId: 3
+            chartId: 2
         });
-        
+
+
+        // === Chuẩn hóa dữ liệu cho Task 3: Mối liên hệ giữa hút thuốc và bệnh tim ===
 
 
         // === Chuẩn hóa dữ liệu cho Task 4: Ảnh hưởng của vận động đến bệnh tim ===
+        
+
+        // Bước 1: Lọc trước khi nhóm
+        const filteredData = data.filter(d => ["Low", "Medium", "High"].includes(d["Exercise Habits"]));
+
+        // Bước 2: Nhóm dữ liệu theo thói quen vận động
+        const exerciseData = d3.rollup(
+            filteredData,
+            v => ({
+                Yes: v.filter(d => d["Heart Disease Status"] === "Yes").length,
+                No: v.filter(d => d["Heart Disease Status"] === "No").length
+            }),
+            d => d["Exercise Habits"]
+        );
+
+        // Bước 3: Định dạng và sắp xếp
+        const task4Formatted = Array.from(exerciseData, ([group, val]) => ({
+            group,
+            Yes: val.Yes,
+            No: val.No
+        }));
+
+        task4Formatted.sort((a, b) => {
+            const order = { Low: 0, Medium: 1, High: 2 };
+            return order[a.group] - order[b.group];
+        });
+
+        // Bước 4: Vẽ biểu đồ
+        drawGroupedBarChart("#chart-task4", task4Formatted, "Thói quen vận động", "Số lượng", {
+            filterableGroups: ["Yes", "No"],
+            chartId: 4
+        });
+
+
+
+
 
         // === Task 5: Mức độ cholesterol giữa 2 nhóm bệnh tim ===
         drawBoxplot(data, "#chart-task5", 5);  // Thêm tham số 5 là chartId
         
         // === Chuẩn hóa dữ liệu cho Task 6: Tương quan giữa BMI và bệnh tim ===
-        // === Task 6: Tương quan giữa BMI và bệnh tim ===
-        drawBoxplot_BMI(data, "#chart-task6");
-
-
 
     }).catch(error => {
         console.error("Lỗi khi tải dữ liệu:", error);
@@ -482,7 +516,7 @@ function drawBoxplot(data, selector, chartId) {
 }
 
 // Hàm thiết lập filter và sort cho biểu đồ
-function setupChartFilters(selector, originalData) {
+function setupChartFilters(selector, originalData, filterName = "filter-heart") {
     // Lưu trữ dữ liệu gốc để dùng khi filter/sort
     const chartData = [...originalData];
     const svgSelector = selector;
@@ -490,6 +524,7 @@ function setupChartFilters(selector, originalData) {
     // Lấy các phần tử DOM
     const chartContainer = document.querySelector(`${selector}`).closest('.chart-card');
     const filterCheckboxes = chartContainer.querySelectorAll('input[name="filter-heart"]');
+
     const sortRadios = chartContainer.querySelectorAll('input[name="sort-order"]');
     const sortPanel = chartContainer.querySelector('.sort-panel');
     
@@ -708,215 +743,3 @@ function addChartCaption(selector, chartId) {
             console.log(`Không tìm thấy file caption cho biểu đồ ${chartId}`);
         });
 }
-function drawScatterPlot(selector, data, chartId) {
-    const svg = d3.select(selector);
-    svg.selectAll("*").remove();
-
-    const margin = { top: 40, right: 30, bottom: 60, left: 60 };
-    const width = +svg.attr("width") - margin.left - margin.right;
-    const height = +svg.attr("height") - margin.top - margin.bottom;
-
-    const chart = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
-
-    const x = d3.scaleLinear()
-        .domain(d3.extent(data, d => d.bmi))
-        .nice()
-        .range([0, width]);
-
-    const y = d3.scaleLinear()
-        .domain([-1, 1]) // dùng jitter để tránh chồng điểm
-        .range([height, 0]);
-
-    const color = d3.scaleOrdinal()
-        .domain(["Yes", "No"])
-        .range(["tomato", "steelblue"]);
-
-    chart.append("g")
-        .attr("transform", `translate(0, ${height})`)
-        .call(d3.axisBottom(x));
-
-    chart.append("g")
-        .call(d3.axisLeft(y).ticks(0)); // không cần trục Y chi tiết
-
-    // Label trục
-    chart.append("text")
-        .attr("x", width / 2)
-        .attr("y", height + 40)
-        .attr("text-anchor", "middle")
-        .attr("font-size", "14px")
-        .attr("font-weight", "bold")
-        .text("BMI");
-
-    // Chấm điểm
-    chart.selectAll("circle")
-        .data(data)
-        .enter()
-        .append("circle")
-        .attr("cx", d => x(d.bmi))
-        .attr("cy", () => y(Math.random() * 2 - 1)) // jitter
-        .attr("r", 5)
-        .attr("fill", d => color(d.status))
-        .attr("opacity", 0.7);
-
-    // Chú thích
-    const legend = svg.append("g").attr("transform", `translate(${width - 100}, 20)`);
-    ["Yes", "No"].forEach((status, i) => {
-        legend.append("circle")
-            .attr("cx", 0)
-            .attr("cy", i * 20)
-            .attr("r", 6)
-            .attr("fill", color(status));
-
-        legend.append("text")
-            .attr("x", 12)
-            .attr("y", i * 20 + 5)
-            .text(status === "Yes" ? "Có bệnh tim" : "Không có bệnh tim")
-            .attr("font-size", "13px");
-    });
-
-    if (chartId) {
-        addChartCaption(selector, chartId);
-    }
-}
-function drawBoxplot_BMI(data, selector) {
-    const svg = d3.select(selector);
-    svg.selectAll("*").remove();
-
-    const margin = { top: 40, right: 80, bottom: 60, left: 70 };
-    const width = +svg.attr("width") - margin.left - margin.right;
-    const height = +svg.attr("height") - margin.top - margin.bottom;
-    const chart = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
-
-    const statusLabels = { Yes: "Có bệnh tim", No: "Không có bệnh tim" };
-    const colors = { Yes: "#ff6b6b", No: "#4dabf7" };
-
-    // Chuẩn hóa dữ liệu
-    const groups = { Yes: [], No: [] };
-    data.forEach(d => {
-        const status = d["Heart Disease Status"];
-        const bmi = parseFloat(d.BMI);
-        if ((status === "Yes" || status === "No") && !isNaN(bmi)) {
-            groups[status].push(bmi);
-        }
-    });
-
-    const summary = Object.entries(groups).map(([group, values]) => {
-        values.sort(d3.ascending);
-        const q1 = d3.quantile(values, 0.25);
-        const median = d3.quantile(values, 0.5);
-        const q3 = d3.quantile(values, 0.75);
-        const iqr = q3 - q1;
-        const min = values.find(v => v >= q1 - 1.5 * iqr) || d3.min(values);
-        const max = values.slice().reverse().find(v => v <= q3 + 1.5 * iqr) || d3.max(values);
-        return { group, q1, median, q3, min, max };
-    });
-
-    const x = d3.scaleBand().domain(["No", "Yes"]).range([0, width]).padding(0.4);
-    const y = d3.scaleLinear()
-        .domain([d3.min(summary, d => d.min) * 0.95, d3.max(summary, d => d.max) * 1.05])
-        .nice()
-        .range([height, 0]);
-
-    chart.append("g")
-        .attr("transform", `translate(0,${height})`)
-        .call(d3.axisBottom(x).tickFormat(d => statusLabels[d]));
-
-    chart.append("g").call(d3.axisLeft(y).ticks(8));
-
-    // Nhãn trục
-    chart.append("text")
-        .attr("x", width / 2)
-        .attr("y", height + 45)
-        .attr("text-anchor", "middle")
-        .attr("font-size", "14px")
-        .attr("font-weight", "bold")
-        .text("Tình trạng bệnh tim");
-
-    chart.append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", -50)
-        .attr("x", -height / 2)
-        .attr("text-anchor", "middle")
-        .attr("font-size", "14px")
-        .attr("font-weight", "bold")
-        .text("Chỉ số BMI");
-
-    // Tooltip
-    let tooltip = d3.select("body").select(".tooltip");
-    if (tooltip.empty()) {
-        tooltip = d3.select("body").append("div").attr("class", "tooltip");
-    }
-
-    // Vẽ boxplot
-    summary.forEach(d => {
-        const center = x(d.group) + x.bandwidth() / 2;
-        const boxWidth = x.bandwidth() * 0.6;
-
-        chart.append("line")
-            .attr("x1", center).attr("x2", center)
-            .attr("y1", y(d.min)).attr("y2", y(d.max))
-            .attr("stroke", "black");
-
-        chart.append("rect")
-            .attr("x", center - boxWidth / 2)
-            .attr("y", y(d.q3))
-            .attr("width", boxWidth)
-            .attr("height", y(d.q1) - y(d.q3))
-            .attr("fill", colors[d.group])
-            .attr("stroke", "black")
-            .on("mouseover", (event) => {
-                tooltip.style("opacity", 1)
-                    .html(`<strong>${statusLabels[d.group]}</strong><br>
-                        Trung vị: ${Math.round(d.median)}<br>
-                        Q1: ${Math.round(d.q1)}<br>
-                        Q3: ${Math.round(d.q3)}<br>
-                        Min: ${Math.round(d.min)}<br>
-                        Max: ${Math.round(d.max)}`)
-                    .style("left", event.pageX + 10 + "px")
-                    .style("top", event.pageY - 28 + "px");
-            })
-            .on("mouseout", () => tooltip.style("opacity", 0));
-
-        chart.append("line")
-            .attr("x1", center - boxWidth / 2).attr("x2", center + boxWidth / 2)
-            .attr("y1", y(d.median)).attr("y2", y(d.median))
-            .attr("stroke", "black").attr("stroke-width", 2);
-
-        chart.append("line")
-            .attr("x1", center - boxWidth / 4).attr("x2", center + boxWidth / 4)
-            .attr("y1", y(d.min)).attr("y2", y(d.min))
-            .attr("stroke", "black");
-
-        chart.append("line")
-            .attr("x1", center - boxWidth / 4).attr("x2", center + boxWidth / 4)
-            .attr("y1", y(d.max)).attr("y2", y(d.max))
-            .attr("stroke", "black");
-
-        chart.append("text")
-            .attr("x", center)
-            .attr("y", y(d.median) - 10)
-            .attr("text-anchor", "middle")
-            .attr("font-size", "12px")
-            .attr("font-weight", "bold")
-            .text(`${Math.round(d.median)}`);
-    });
-
-    // Legend
-    const legend = svg.append("g").attr("transform", `translate(${width + margin.left - 40}, ${margin.top + 10})`);
-    Object.entries(statusLabels).forEach(([status, label], i) => {
-        legend.append("rect")
-            .attr("x", 0)
-            .attr("y", i * 25)
-            .attr("width", 15).attr("height", 15)
-            .attr("fill", colors[status]);
-
-        legend.append("text")
-            .attr("x", 20)
-            .attr("y", i * 25 + 12)
-            .text(label)
-            .attr("font-size", "12px");
-    });
-
-    addChartCaption(selector, 6);
-}
-
