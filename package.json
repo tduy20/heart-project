@@ -1,19 +1,24 @@
 {
-  "name": "heart-project-main",
+  "name": "heart-project",
   "version": "1.0.0",
-  "description": "",
+  "description": "npm init -y\r # Bước 2: Cài http-server (server tĩnh)\r npm install --save-dev http-server\r # Bước 3: Thêm lệnh script vào package.json\r Mở file package.json và thêm dòng sau vào \"scripts\":\r \"scripts\": {\r   \"start\": \"http-server -p 8080\"\r }",
   "main": "script.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "http-server -p 8080" 
+    "start": "http-server -p 8080"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tduy20/heart-project.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/tduy20/heart-project/issues"
+  },
+  "homepage": "https://github.com/tduy20/heart-project#readme",
   "devDependencies": {
     "http-server": "^14.1.1"
-  
   }
- 
 }
