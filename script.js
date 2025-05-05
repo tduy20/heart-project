@@ -108,12 +108,69 @@ document.addEventListener("DOMContentLoaded", function () {
         setupChartFilters("#chart-task1", task1Formatted);
         
         // === Chuẩn hóa dữ liệu cho Task 2: Mối liên hệ giữa giới tính và bệnh tim ===
+       
+        // Lọc dữ liệu chỉ lấy Male và Female
+        const genderFilteredData = data.filter(d => d.Gender === "Male" || d.Gender === "Female");
 
+        const task2Data = d3.rollups(
+            genderFilteredData,
+            v => ({
+                Yes: v.filter(d => d["Heart Disease Status"] === "Yes").length,
+                No: v.filter(d => d["Heart Disease Status"] === "No").length
+            }),
+            d => d.Gender
+        ).map(([group, val]) => ({
+            group,
+            Yes: val.Yes,
+            No: val.No
+        }));
+
+        drawGroupedBarChart("#chart-task2", task2Data, "Giới tính", "Số lượng", {
+            filterableGroups: ["Yes", "No"],
+            chartId: 2
+        });
 
 
         // === Chuẩn hóa dữ liệu cho Task 3: Mối liên hệ giữa hút thuốc và bệnh tim ===
 
+
         // === Chuẩn hóa dữ liệu cho Task 4: Ảnh hưởng của vận động đến bệnh tim ===
+        
+
+        // Bước 1: Lọc trước khi nhóm
+        const filteredData = data.filter(d => ["Low", "Medium", "High"].includes(d["Exercise Habits"]));
+
+        // Bước 2: Nhóm dữ liệu theo thói quen vận động
+        const exerciseData = d3.rollup(
+            filteredData,
+            v => ({
+                Yes: v.filter(d => d["Heart Disease Status"] === "Yes").length,
+                No: v.filter(d => d["Heart Disease Status"] === "No").length
+            }),
+            d => d["Exercise Habits"]
+        );
+
+        // Bước 3: Định dạng và sắp xếp
+        const task4Formatted = Array.from(exerciseData, ([group, val]) => ({
+            group,
+            Yes: val.Yes,
+            No: val.No
+        }));
+
+        task4Formatted.sort((a, b) => {
+            const order = { Low: 0, Medium: 1, High: 2 };
+            return order[a.group] - order[b.group];
+        });
+
+        // Bước 4: Vẽ biểu đồ
+        drawGroupedBarChart("#chart-task4", task4Formatted, "Thói quen vận động", "Số lượng", {
+            filterableGroups: ["Yes", "No"],
+            chartId: 4
+        });
+
+
+
+
 
         // === Task 5: Mức độ cholesterol giữa 2 nhóm bệnh tim ===
         drawBoxplot(data, "#chart-task5", 5);  // Thêm tham số 5 là chartId
@@ -459,7 +516,7 @@ function drawBoxplot(data, selector, chartId) {
 }
 
 // Hàm thiết lập filter và sort cho biểu đồ
-function setupChartFilters(selector, originalData) {
+function setupChartFilters(selector, originalData, filterName = "filter-heart") {
     // Lưu trữ dữ liệu gốc để dùng khi filter/sort
     const chartData = [...originalData];
     const svgSelector = selector;
@@ -467,6 +524,7 @@ function setupChartFilters(selector, originalData) {
     // Lấy các phần tử DOM
     const chartContainer = document.querySelector(`${selector}`).closest('.chart-card');
     const filterCheckboxes = chartContainer.querySelectorAll('input[name="filter-heart"]');
+
     const sortRadios = chartContainer.querySelectorAll('input[name="sort-order"]');
     const sortPanel = chartContainer.querySelector('.sort-panel');
     

@@ -1,0 +1,5 @@
+Nhận xét biểu đồ: Ảnh hưởng của vận động đến bệnh tim
+-Xu hướng chung: Nhóm có thói quen vận động cao (High) và trung bình (Medium) đều có số người không mắc bệnh tim vượt trội, đồng thời có số ca mắc bệnh thấp hơn so với nhóm vận động thấp (Low).
+-Tỷ lệ mắc bệnh: Nhóm vận động thấp (Low) có tỷ lệ mắc bệnh tim cao nhất trong 3 nhóm, mặc dù tổng số người trong nhóm này không phải lớn nhất.
+-Biểu đồ cho thấy xu hướng vận động càng nhiều thì nguy cơ mắc bệnh tim càng giảm, phản ánh rõ mối liên hệ tích cực giữa hoạt động thể chất và sức khỏe tim mạch.
+
